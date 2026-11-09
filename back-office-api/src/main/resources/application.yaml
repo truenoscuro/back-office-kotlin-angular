@@ -1,0 +1,17 @@
+jwt:
+  secret: 45737de5b7515546640a934844b01630c037972bfbea5ed0b7c16dffac0dab7e
+  expiration-ms: 86400000
+
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/back-office
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true

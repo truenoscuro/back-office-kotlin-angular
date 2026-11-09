@@ -1,0 +1,17 @@
+name: back-office
+services:
+  database:
+    container_name: back-office-database
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: back-office
+    volumes:
+      - database:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+volumes:
+  database:
+    name: back-office-database

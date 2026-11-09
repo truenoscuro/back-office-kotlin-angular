@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--mat-sys-primary);
+}
+
+mat-card {
+  width: 100%;
+  max-width: 400px;
+}

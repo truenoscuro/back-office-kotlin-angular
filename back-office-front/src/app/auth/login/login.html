@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-header>
+    {{ "LOGIN.TITLE" | translation }}
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ "LOGIN.EMAIL" | translation }}
+        </mat-label>
+        <input [formField]="loginForm.email" matInput type="email">
+        <mat-error>
+          @for (error of loginForm.email().errors(); track error.kind) {
+            {{ error.message | translationKey | translation }}
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ "LOGIN.PASSWORD" | translation }}
+        </mat-label>
+        <input [formField]="loginForm.password" matInput type="password">
+        <mat-error>
+          @for (error of loginForm.password().errors(); track error.kind) {
+            {{ error.message | translationKey | translation }}
+          }
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="login()" [showProgress]="isLoading()" matButton="filled">
+      <mat-progress-spinner aria-label="Loading"
+                            diameter="20"
+                            mode="indeterminate"
+                            progressIndicator
+                            tabindex=""
+      />
+      {{ "LOGIN.BUTTON_LOGIN" | translation }}
+    </button>
+  </mat-card-actions>
+</mat-card>
