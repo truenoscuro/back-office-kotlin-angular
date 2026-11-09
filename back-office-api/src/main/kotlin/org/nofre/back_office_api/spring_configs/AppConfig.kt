@@ -1,4 +1,4 @@
-package org.nofre.back_office_api.shared.app_config
+package org.nofre.back_office_api.spring_configs
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

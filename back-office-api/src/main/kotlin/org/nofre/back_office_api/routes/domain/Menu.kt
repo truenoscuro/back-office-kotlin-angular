@@ -8,6 +8,7 @@ import java.time.Instant
 @Entity
 @Table(name = "menus")
 class Menu {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

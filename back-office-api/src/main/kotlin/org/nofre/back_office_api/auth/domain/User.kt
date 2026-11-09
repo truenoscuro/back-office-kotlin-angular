@@ -6,11 +6,11 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.ColumnDefault
-import java.time.Instant
+import org.nofre.back_office_api.shared.auditable.Auditable
 
 @Entity
 @Table(name = "users")
-class User {
+class User : Auditable() {
     @Id
     @Column(name = "id", nullable = false)
     var id: Long = 0L
@@ -32,18 +32,5 @@ class User {
     @Column(name = "is_system", nullable = false)
     var isSystem: Boolean = false
 
-    @NotNull
-    @Column(name = "created_by", nullable = false, length = Integer.MAX_VALUE)
-    var createdBy: String = ""
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    var createdAt: Instant = Instant.now()
-
-    @Column(name = "updated_by", length = Integer.MAX_VALUE)
-    var updatedBy: String? = null
-
-    @Column(name = "updated_at")
-    var updatedAt: Instant? = null
 
 }

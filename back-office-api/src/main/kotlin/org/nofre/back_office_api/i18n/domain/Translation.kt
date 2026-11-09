@@ -2,11 +2,11 @@ package org.nofre.back_office_api.i18n.domain
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
-import java.time.Instant
+import org.nofre.back_office_api.shared.auditable.Auditable
 
 @Entity
 @Table(name = "translations")
-class Translation {
+class Translation : Auditable() {
     @EmbeddedId
     var id: TranslationId? = null
 
@@ -24,18 +24,5 @@ class Translation {
     @Column(name = "value", nullable = false, length = Integer.MAX_VALUE)
     var value: String = ""
 
-    @NotNull
-    @Column(name = "created_by", nullable = false, length = Integer.MAX_VALUE)
-    var createdBy: String = ""
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    var createdAt: Instant = Instant.now()
-
-    @Column(name = "updated_by", length = Integer.MAX_VALUE)
-    var updatedBy: String? = null
-
-    @Column(name = "updated_at")
-    var updatedAt: Instant? = null
 
 }

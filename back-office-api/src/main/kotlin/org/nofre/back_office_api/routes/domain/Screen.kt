@@ -7,6 +7,7 @@ import java.time.Instant
 @Entity
 @Table(name = "screens")
 class Screen {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -6,7 +6,7 @@ import org.springframework.modulith.core.ApplicationModules
 import org.springframework.modulith.docs.Documenter
 
 @SpringBootTest
-class BackendApiApplicationTests {
+class BackOfficeApiApplicationTests {
 
     @Test
     fun contextLoads() {

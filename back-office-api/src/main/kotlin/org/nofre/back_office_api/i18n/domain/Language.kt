@@ -3,11 +3,11 @@ package org.nofre.back_office_api.i18n.domain
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.ColumnDefault
-import java.time.Instant
+import org.nofre.back_office_api.shared.auditable.Auditable
 
 @Entity
 @Table(name = "languages")
-class Language {
+class Language : Auditable() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,19 +31,6 @@ class Language {
     @Column(name = "is_default", nullable = false)
     var isDefault: Boolean = false
 
-    @NotNull
-    @Column(name = "created_by", nullable = false, length = Integer.MAX_VALUE)
-    var createdBy: String = ""
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    var createdAt: Instant = Instant.now()
-
-    @Column(name = "updated_by", length = Integer.MAX_VALUE)
-    var updatedBy: String? = null
-
-    @Column(name = "updated_at")
-    var updatedAt: Instant? = null
 
     @NotNull
     @ColumnDefault("false")

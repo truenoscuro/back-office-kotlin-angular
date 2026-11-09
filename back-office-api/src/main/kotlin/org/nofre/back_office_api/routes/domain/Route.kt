@@ -46,7 +46,6 @@ class Route {
     var menu: Menu? = null
 
 
-
     @OneToMany(mappedBy = "father")
     var children: MutableSet<Route> = mutableSetOf()
 

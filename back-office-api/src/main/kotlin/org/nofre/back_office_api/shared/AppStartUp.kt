@@ -1,4 +1,4 @@
-package org.nofre.back_office_api.shared.app_config
+package org.nofre.back_office_api.shared
 
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
@@ -16,7 +16,10 @@ class AppStartUp(val passwordEncoder: PasswordEncoder) {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @EventListener(ApplicationReadyEvent::class)
     fun onApplicationReady(event: ApplicationReadyEvent) {
-        val password = UUID.randomUUID().toString().replace("-", "").take(16)
+        val password = UUID.randomUUID()
+            .toString()
+            .replace("-", "")
+            .take(16)
         println("Password: ${password} - encoded: ${passwordEncoder.encode("password")}")
     }
 
