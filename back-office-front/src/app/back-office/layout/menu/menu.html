@@ -1,0 +1,63 @@
+<mat-tree #tree
+          [childrenAccessor]="childrenAccessor"
+          [class.is-collapsed]="collapsed()"
+          [dataSource]="menuRoutes()"
+          class="compact-menu-tree">
+
+  <!-- Node fulla -->
+  <mat-tree-node *matTreeNodeDef="let node"
+                 [keyRouterLink]="node.screenKey"
+                 class="compact-tree-node"
+                 matTreeNodePadding>
+    @let menu = typeMenu(node);
+
+    <!-- L'espaiador s'oculta en mode col·lapsat -->
+    <span class="toggle-spacer"></span>
+
+    @if (menu.screenKey) {
+      @if (menu.icon) {
+        <mat-icon [matTooltipDisabled]="!collapsed()"
+                  [matTooltip]="menu.title | translation"
+                  class="menu-node-icon"
+        >
+
+          {{ menu.icon }}
+        </mat-icon>
+      }
+      <a class="menu-link-wrapper">
+        {{ menu.title | translation }}
+      </a>
+    }
+  </mat-tree-node>
+
+  <!-- Node pare -->
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild"
+                 class="compact-tree-node is-parent"
+                 matTreeNodePadding
+                 matTreeNodeToggle>
+    @let menu = typeMenu(node);
+
+    <!-- Botó de fletxa desplegable -->
+    <button [attr.aria-label]="'Toggle ' + menu.title"
+            class="compact-toggle-btn"
+            mat-icon-button
+            matTreeNodeToggle>
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+
+    @if (menu.icon) {
+      <mat-icon
+        [matTooltipDisabled]="!collapsed()"
+        [matTooltip]="menu.title | translation"
+        class="menu-node-icon">{{ menu.icon }}
+      </mat-icon>
+    }
+
+    <span class="menu-text-label">
+      {{ menu.title | translation }}
+    </span>
+  </mat-tree-node>
+
+</mat-tree>

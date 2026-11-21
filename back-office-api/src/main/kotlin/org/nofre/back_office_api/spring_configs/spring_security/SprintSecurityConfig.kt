@@ -18,33 +18,35 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 internal class SprintSecurityConfig {
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    fun filterChain(
-        http: HttpSecurity, roleCache: RoleCacheProvider
-    ): SecurityFilterChain = http.csrf { it.disable() }.cors { it.disable() }.authorizeHttpRequests {
-        it.requestMatchers(
-            "/api/auth/**",
-            "/api/i18n/**",
-            "/internal/api/**"
-        ).permitAll().anyRequest().authenticated()
-    }.oauth2ResourceServer { oauth2 ->
-        oauth2.jwt { jwt ->
-            jwt.jwtAuthenticationConverter { jwt ->
+    fun filterChain(http: HttpSecurity, roleCache: RoleCacheProvider): SecurityFilterChain = http.csrf { it.disable() }
+        .cors { it.disable() }
+        .authorizeHttpRequests {
+            it.requestMatchers("/api/auth/login", "/api/i18n/**", "/internal/api/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+        }
+        .oauth2ResourceServer { oauth2 ->
+            oauth2.jwt { jwt ->
+                jwt.jwtAuthenticationConverter { jwt ->
 
-                //Añadimos los datos que queremos
-                val email = checkNotNull(jwt.email) { "No hay email en el JWT" }
-                val role = checkNotNull(jwt.role) { "No hay rol en el JWT" }
+                    //Añadimos los datos que queremos
+                    val email = checkNotNull(jwt.email) { "No hay email en el JWT" }
+                    val role = checkNotNull(jwt.role) { "No hay rol en el JWT" }
 
-                //Añadimos los roles y los permisos
-                val permissions = roleCache.permissions(role)
-                val authorities = mutableListOf<GrantedAuthority>(SimpleGrantedAuthority(getFormattedRole(role)))
-                authorities.addAll(permissions.map { SimpleGrantedAuthority(it.name) })
+                    //Añadimos los roles y los permisos
+                    val permissions = roleCache.permissions(role)
+                    val authorities = mutableListOf<GrantedAuthority>(SimpleGrantedAuthority(getFormattedRole(role)))
+                    authorities.addAll(permissions.map { SimpleGrantedAuthority(it.name) })
 
-                JwtAuthenticationToken(jwt, authorities, email)
+                    JwtAuthenticationToken(jwt, authorities, email)
+                }
             }
         }
-    }.build()
+        .build()
 
 }
 

@@ -1,5 +1,5 @@
-import { ComponentLoader } from '../shared/router/router.interfaces';
-import { ScreenKey } from '../shared/router/screen-keys.type';
+import { ComponentLoader } from '../core/router/router.interfaces';
+import { ScreenKey } from '../core/router/screen-keys.type';
 
 export const screenKeyMap: Record<ScreenKey, ComponentLoader> = {
   dashboard: {

@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.Repository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -38,6 +39,7 @@ internal class RoleCacheStartUp(
 
             cacheManager.clear()
             do {
+
                 val roles = repository.findAllByIsActiveIsTrue(PageRequest.of(index++, 50))
                 hasNextPage = roles.hasNext()
                 //Cargamos todos los roles y permisos

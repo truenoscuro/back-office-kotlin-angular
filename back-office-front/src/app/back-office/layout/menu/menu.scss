@@ -1,0 +1,91 @@
+.compact-menu-tree {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  .compact-tree-node {
+    min-height: 36px !important;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .compact-toggle-btn,
+  .toggle-spacer {
+    width: 24px !important;
+    height: 24px !important;
+    line-height: 24px;
+    padding: 0;
+    margin-right: 4px;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+    }
+  }
+
+  .menu-node-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 8px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .menu-link-wrapper,
+  .menu-text-label {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* --------------------------------------------------
+   * QUAN ES FA PETIT (NOMÉS ICONES):
+   * -------------------------------------------------- */
+  &.is-collapsed {
+    .compact-tree-node {
+      justify-content: center; /* Centra la icona horitzontalment */
+      padding-left: 0 !important; /* Desactiva el padding del multilevel */
+      padding-right: 0 !important;
+    }
+
+    /* Amaga fletxes de desplegar i espaiadors */
+    .compact-toggle-btn,
+    .toggle-spacer {
+      display: none !important;
+    }
+
+    /* Amaga tots els textos */
+    .menu-link-wrapper,
+    .menu-text-label {
+      display: none !important;
+    }
+
+    /* Centra la icona sense marge dret */
+    .menu-node-icon {
+      margin-right: 0;
+    }
+  }
+}

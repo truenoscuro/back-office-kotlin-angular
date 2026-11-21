@@ -33,32 +33,44 @@ internal class GetRoutesMeHandler(
     fun getRoutes(role: String): List<GeRouteMeResponse> {
         val roleApi = roleApiService.getRole(role)
 
-        return repository.findPrincipalRoutes(roleApi.id).map {
-            createRoute(
-                route = it, completePathAnt = listOf(), breadcrumbAnt = listOf()
-            )
-        }
+        return repository.findPrincipalRoutes(roleApi.id)
+            .map {
+                createRoute(it)
+            }
     }
 
     fun createRoute(
-        route: Route, completePathAnt: List<String> = listOf(), breadcrumbAnt: List<GetBreadcrumbMeResponse>
+        route: Route, completePathAnt: List<String> = listOf()
     ): GeRouteMeResponse {
         //Añadimos el path
         val completePath = completePathAnt.toMutableList()
         completePath.add(route.path)
 
-        val breadcrumb = breadcrumbAnt.toMutableList()
-        breadcrumb.add(
-            GetBreadcrumbMeResponse(
-                title = route.breadcrumbTitle, key = route.screen?.key
+        //Calculamos el breadcrumb
+        val breadcrumbs = mutableListOf(GetBreadcrumbMeResponse(
+            title = route.breadcrumbTitle,
+            key = route.screen?.key,
+        ))
+        var currentRoute = route.father
+        while (currentRoute != null) {
+            breadcrumbs.add(
+                GetBreadcrumbMeResponse(
+                    title = currentRoute.breadcrumbTitle,
+                    key = currentRoute.screen?.key,
+                )
             )
-        )
+            currentRoute = currentRoute.father
+        }
 
+
+        val children = if (route.screen == null)
+            route.children.map { createRoute(it, completePath) }
+        else emptyList()
         return GeRouteMeResponse(
             path = route.path,
             completePath = completePath,
-            children = route.children.map { createRoute(it, completePath, breadcrumb) },
-            breadcrumb = breadcrumb,
+            children = children,
+            breadcrumbs = breadcrumbs.reversed(),
             isMenu = route.menu != null,
             menuTitle = route.menu?.title,
             menuIcon = route.menu?.icon,

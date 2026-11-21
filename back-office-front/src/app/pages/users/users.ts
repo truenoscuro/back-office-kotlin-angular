@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { HeaderScreen } from '../../../ui/header-screen/header-screen';
 
 @Component({
-  imports: [],
+  imports: [HeaderScreen],
   selector: 'app-users',
   styleUrl: './users.scss',
   templateUrl: './users.html',

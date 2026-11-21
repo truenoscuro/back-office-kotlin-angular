@@ -1,24 +1,104 @@
+@use '@angular/material' as mat;
+
 :host {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
+
+  @include mat.sidenav-overrides((
+    container-shape: none,
+  ));
 }
 
+/* Toolbar superior */
 mat-toolbar {
   flex: 0 0 auto;
   background-color: var(--mat-sys-primary);
   color: var(--mat-sys-on-primary);
+
+  mat-icon {
+    color: var(--mat-sys-on-primary);
+  }
 }
 
-.example-spacer {
+.spacer {
   flex: 1 1 auto;
 }
 
+/* Contenidor del drawer */
 mat-drawer-container {
   flex: 1 1 auto;
-  overflow: auto;
+  height: calc(100vh - 64px); /* Sense caràcters estranys */
+  display: block;
+  position: relative;
+  overflow: hidden;
 }
 
-mat-icon {
-  color: var(--mat-sys-on-primary);
+/* Drawer lateral redimensionable */
+mat-drawer.resizable-drawer {
+  height: 100%;
+  border-right: 1px solid var(--mat-sys-outline);
+  box-sizing: border-box;
+
+  .drawer-inner-content {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Barra agafador per arrossegar la vora */
+  .resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 6px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 100;
+    background: transparent;
+
+    &:hover,
+    &:active {
+      background-color: var(--mat-sys-primary);
+    }
+  }
+
+  &.resizing {
+    transition: none !important;
+  }
 }
+
+/* Contingut principal amb padding forçat */
+/* Deixa mat-drawer-content només amb l'scroll */
+mat-drawer-content {
+  height: 100%;
+  overflow: auto;
+  margin-right: 0 !important;
+  box-sizing: border-box;
+  padding: 0 !important; /* Treu el padding d'aquí */
+
+  &.resizing {
+    transition: none !important;
+  }
+}
+
+/* Evita que el text es seleccioni mentre s'arrossega */
+:host-context(body:has(.resize-handle:active)) {
+  user-select: none;
+}
+
+/* El contenidor real del contingut */
+.content-body {
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+

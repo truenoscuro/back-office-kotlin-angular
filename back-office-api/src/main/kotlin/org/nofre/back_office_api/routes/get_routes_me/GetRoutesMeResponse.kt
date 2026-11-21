@@ -13,7 +13,7 @@ internal data class GeRouteMeResponse(
     val path: String,
     val completePath: List<String> = listOf(),
     val children: List<GeRouteMeResponse> = listOf(),
-    val breadcrumb: List<GetBreadcrumbMeResponse> = listOf(),
+    val breadcrumbs: List<GetBreadcrumbMeResponse> = listOf(),
 
     //Partes del menú
     val isMenu: Boolean = false,

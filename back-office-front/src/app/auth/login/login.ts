@@ -1,14 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { TranslationPipe } from '../../../shared/translations/translation-pipe';
+import { TranslationPipe } from '../../../core/translations/translation-pipe';
 import { MatButton } from '@angular/material/button';
 import { email, form, FormField, required } from '@angular/forms/signals';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs';
-import { TranslationKeyPipe } from '../../../shared/translations/translation-key-pipe';
+import { TranslationStringPipe } from '../../../core/translations/translation-key-pipe';
 import { LoginService } from './login-service';
 import { LoginRequest } from './login.interfaces';
+import { KeyRouter } from '../../../core/router/key-router';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [
@@ -24,7 +26,7 @@ import { LoginRequest } from './login.interfaces';
     FormField,
     MatError,
     MatProgressSpinner,
-    TranslationKeyPipe,
+    TranslationStringPipe,
   ],
   selector: 'app-login',
   styleUrl: './login.scss',
@@ -41,8 +43,13 @@ export default class Login {
     required(path.password, { message: 'LOGIN.PASSWORD_REQUIRED' });
     email(path.email, { message: 'LOGIN.EMAIL_INVALID' });
   });
-
+  #backOfficeRouter = inject(KeyRouter);
+  #router = inject(Router);
   #loginService = inject(LoginService);
+
+  #subscription = inject(KeyRouter).startNavigate.subscribe(() => this.#router.navigate(['']));
+
+  #destroyRef = inject(DestroyRef).onDestroy(() => this.#subscription.unsubscribe());
 
   protected login() {
     if (this.loginForm().invalid()) {
@@ -55,5 +62,4 @@ export default class Login {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe();
   }
-
 }

@@ -1,1 +1,65 @@
-<p>dashboard works!</p>
+<app-back-office-page>
+  @let displayColumns = ["value", "label", "actions"];
+  @let footerDisplayColumns = ["value", "label", "actions"];
+  @let columnWidths = { actions: "100px" };
+
+  <mat-paginator [dataSource]="datasource" />
+  <table (sortsChange)="printSorts($event)"
+         [columnWidths]="columnWidths"
+         [dataSource]="datasource"
+         autoMobileTable
+         mat-table
+         multiSort multiTemplateDataRows="true">
+
+    <ng-container matColumnDef="value">
+      <th *matHeaderCellDef mat-header-cell multiSortHeader>id</th>
+      <td *matCellDef="let option" mat-cell>
+        {{ option.value + 1 }}
+      </td>
+      <td *matFooterCellDef mat-footer-cell> Total</td>
+    </ng-container>
+
+    <ng-container matColumnDef="label">
+      <th *matHeaderCellDef mat-header-cell multiSortHeader> name</th>
+      <td *matCellDef="let option" mat-cell>
+        {{ option.label }}
+      </td>
+      <td *matFooterCellDef mat-footer-cell> {{ datasource.totalElements }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd="true">
+      <th *matHeaderCellDef mat-header-cell> acciones</th>
+      <td *matCellDef="let option" mat-cell>
+        <button matIconButton>
+          <mat-icon> home</mat-icon>
+        </button>
+      </td>
+      <td *matFooterCellDef mat-footer-cell></td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td *matCellDef="let element" [attr.colspan]="displayColumns.length" mat-cell>
+        @if (isExpanded(element)) {
+          <div class="expanded-detail-content">
+            Elemento {{ element.label }} expandido con id: {{ element.value + 1 }}
+          </div>
+        }
+      </td>
+    </ng-container>
+
+
+    <tr *matHeaderRowDef="displayColumns; sticky: true" mat-header-row></tr>
+    <tr (click)="toggle(row)" *matRowDef="let row; columns: displayColumns" [class.is-expanded]="isExpanded(row)"
+        class="expandable-parent-row"
+        mat-row
+    ></tr>
+    <tr
+      *matRowDef="let row; columns: ['expandedDetail']"
+      [class.is-expanded]="isExpanded(row)"
+      class="detail-row"
+      mat-row>
+    </tr>
+    <tr *matFooterRowDef="footerDisplayColumns; sticky: true" mat-footer-row></tr>
+
+  </table>
+</app-back-office-page>

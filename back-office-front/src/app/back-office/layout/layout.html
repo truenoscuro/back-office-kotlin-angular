@@ -1,27 +1,32 @@
 <mat-toolbar>
-  <button (click)="drawer.toggle()" aria-label="Example icon-button with menu icon"
+  <button (click)="drawer.toggle()"
           class="example-icon"
-          matIconButton
-  >
+          matIconButton>
     <mat-icon>menu</mat-icon>
   </button>
   <span>My App</span>
-  <span class="example-spacer"></span>
-  <button aria-label="Example icon-button with heart icon" class="example-icon favorite-icon" matIconButton>
+  <span class="spacer"></span>
+  <button matIconButton>
     <mat-icon>favorite</mat-icon>
   </button>
-  <button aria-label="Example icon-button with share icon" class="example-icon" matIconButton>
+  <button matIconButton>
     <mat-icon>share</mat-icon>
   </button>
 </mat-toolbar>
 
-<mat-drawer-container hasBackdrop="false">
-  <mat-drawer #drawer mode="push">
-    dafdsafds
-  </mat-drawer>
-  <mat-drawer-content>
-    <ng-content />
-  </mat-drawer-content>
-</mat-drawer-container>
+<app-drawer-container #drawer
+                      (drawerWidthChange)="onChangeCollapsed($event)"
+                      opened="true">
+  <app-drawer>
+    <!-- Contingut aquí -->
+    <app-menu [collapsed]="isCollapsed()" />
+  </app-drawer>
+
+  <ng-content />
+
+</app-drawer-container>
+
+
+
 
 

@@ -1,0 +1,226 @@
+table[mat-table][autoMobileTable] {
+  /* =======================================================
+     MODE DESKTOP
+     ======================================================= */
+  &:not(.mobile-card-table) {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--mat-sys-corner-small);
+    border: 1px solid var(--mat-sys-outline);
+    overflow: clip;
+
+    tr.expandable-parent-row {
+      cursor: pointer;
+
+      /* Quan està oberta, treiem la línia divisòria amb el seu propi detall */
+      &.is-expanded td[mat-cell] {
+        border-bottom-color: transparent;
+      }
+    }
+
+    tr.detail-row {
+      height: 0;
+
+      &:not(.is-expanded) td[mat-cell] {
+        padding-top: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      &.is-expanded .expanded-detail-content {
+        padding: 0.75rem 1rem 1rem;
+      }
+    }
+
+    /* Treu la línia inferior NOMÉS de l'última fila real de la taula (sigui data row o footer row) */
+    tbody:last-child tr[mat-row]:last-child td[mat-cell],
+    tfoot:last-child tr[mat-footer-row]:last-child td[mat-footer-cell] {
+      border-bottom: none;
+    }
+
+    /* Estil opcional per destacar lleugerament el footer en desktop */
+    td[mat-footer-cell] {
+      font-weight: 600;
+    }
+
+
+  }
+
+  /* =======================================================
+     MODE MÒBIL
+     ======================================================= */
+  &.mobile-card-table {
+    display: block;
+    background: transparent;
+
+    tr.expandable-parent-row {
+      cursor: pointer;
+
+      /* Quan s'obre, aplanem les cantonades de baix per unir-la amb el detall */
+      &.is-expanded {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: none;
+      }
+    }
+
+    /* Quan està tancada, no ocupa espai ni genera gap extra */
+    tr.detail-row:not(.is-expanded) {
+      display: none;
+    }
+
+    /* Quan està oberta, s'enganxa a la targeta superior anul·lant el gap del tbody */
+    tr.detail-row.is-expanded {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      margin-top: -0.75rem; // Compensació exacta del gap: 0.75rem del tbody
+      padding: 0 1rem 0.875rem;
+      border-radius: 0 0 12px 12px;
+      border: 1px solid var(--mat-sys-outline);
+      border-top: 1px dashed var(--mat-sys-outline);
+
+      td[data-detail='true'] {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 0 0 !important;
+        border-bottom: none !important;
+        text-align: left;
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+
+    thead,
+    tr[mat-header-row] {
+      display: none;
+    }
+
+    tbody,
+    tfoot {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    tfoot {
+      margin-top: 0.75rem;
+    }
+
+    /* Targetes normals */
+    tr[mat-row] {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      padding: 0.875rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--mat-sys-outline);
+    }
+
+    /* Targeta de resum (Footer) destacada */
+    tr[mat-footer-row] {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      padding: 0.875rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--mat-sys-outline);
+      font-weight: 600;
+    }
+
+    td[mat-cell],
+    td[mat-footer-cell] {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--mat-sys-outline);
+      text-align: right;
+
+      /* Amaguem les cel·les del footer que no tenen contingut en mòbil */
+      &[data-empty-footer='true'] {
+        display: none;
+      }
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-align: left;
+        flex-shrink: 0;
+      }
+
+      /* Peu de targeta per a la columna d'accions */
+      &[data-actions='true'] {
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding-top: 0.625rem;
+        border-bottom: none;
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+
+  }
+}
+
+
+.table-scroll-container {
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-small);
+
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-outline-variant) transparent;
+
+  table[mat-table][autoMobileTable]:not(.mobile-card-table) {
+    width: 100%;
+    border-collapse: separate; // Clau perquè el border del th viatgi amb el sticky
+    border-spacing: 0;
+    border: none;
+
+    /* El header sticky manté el fons sòlid i la línia divisòria inferior en fer scroll */
+    thead th.mat-mdc-table-sticky {
+      border-bottom: 1px solid var(--mat-sys-outline);
+    }
+
+    /* Si hi ha footer sticky, manté també la seva línia divisòria superior */
+    tfoot .mat-mdc-table-sticky {
+
+      border-top: 1px solid var(--mat-sys-outline);
+    }
+
+    /* Treu la línia inferior de l'última fila perquè no s'ajunti amb el border del div */
+    tbody:last-child tr[mat-row]:last-child td[mat-cell],
+    tfoot:last-child tr[mat-footer-row]:last-child td[mat-footer-cell] {
+      border-bottom: none;
+    }
+  }
+
+  /* En mòbil desapareix el marc i l'scroll perquè siguin targetes normals */
+  &:has(table.mobile-card-table) {
+    max-height: none;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+}

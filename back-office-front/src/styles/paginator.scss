@@ -1,0 +1,98 @@
+mat-paginator.stable-paginator {
+  background: transparent;
+
+  .mat-mdc-paginator-range-label {
+    font-variant-numeric: tabular-nums;
+    min-width: 115px;
+    text-align: center;
+    margin: 0 12px;
+  }
+
+  .mat-mdc-paginator-container {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  &.is-mobile {
+    display: block;
+    margin-bottom: 0.5rem;
+
+    .mat-mdc-paginator-container {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+      padding: 0;
+      min-height: auto;
+    }
+
+    /* Fila 1: selector de mida de pàgina (i torna a mostrar el label si vols) */
+    .mat-mdc-paginator-page-size {
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    .mat-mdc-paginator-page-size-label {
+      display: inline;
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    .mat-mdc-paginator-page-size-select {
+      margin: 0;
+      width: 76px;
+      --mat-form-field-container-height: 36px;
+      --mat-form-field-container-vertical-padding: 6px;
+
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        height: 36px;
+        padding: 0 8px;
+      }
+
+      .mat-mdc-form-field-infix {
+        min-height: 36px;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+      }
+    }
+
+    /* Fila 2: text de rang a l'esquerra i botons de navegació a la dreta */
+    .mat-mdc-paginator-range-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .mat-mdc-paginator-range-label {
+      min-width: 0;
+      margin: 0;
+      text-align: left;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .mat-mdc-paginator-navigation-first,
+    .mat-mdc-paginator-navigation-previous,
+    .mat-mdc-paginator-navigation-next,
+    .mat-mdc-paginator-navigation-last {
+      --mdc-icon-button-state-layer-size: 36px;
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+
+      .mat-mdc-button-touch-target {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+}

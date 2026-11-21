@@ -1,14 +1,20 @@
 import { ApplicationConfig, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withDisabledInitialNavigation } from '@angular/router';
 import { routes } from './app.routes';
-import { provideTranslation } from '../shared/translations/translation.provider';
-import { HttpBackend, HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideBackOfficeRouter } from '../shared/router/router.provider';
+import { provideTranslation } from '../core/translations/translation.provider';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import { provideBackOfficeRouter } from '../core/router/router.provider';
 import { screenKeyMap } from './screen-key-map';
 
-import { AppContext } from '../shared/app-context/app-context';
-import { TranslationKey } from '../shared/translations/translation-keys.type';
-import { BackOfficeRoute } from '../shared/router/router.interfaces';
+import { AppContext } from '../core/app-context/app-context';
+import { BackOfficeRoute } from '../core/router/router.interfaces';
+import { catchError, throwError } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +30,17 @@ export const appConfig: ApplicationConfig = {
           });
           return next(reqAuth);
         },
+        (req, next) => {
+          const appContext = inject(AppContext);
+          return next(req).pipe(
+            catchError((error) => {
+              if (error instanceof HttpErrorResponse && error.status === 401) {
+                appContext.clear();
+              }
+              return throwError(() => error);
+            }),
+          );
+        },
       ]),
     ),
 
@@ -33,9 +50,8 @@ export const appConfig: ApplicationConfig = {
       loader: () => {
         const httpBackend = inject(HttpBackend);
         const httpClient = new HttpClient(httpBackend);
-        return (lang) => httpClient.get<Record<string, string>>(`/api/i8n/translations/${lang}`);
+        return (lang) => httpClient.get<Record<string, string>>(`/api/i18n/${lang}`);
       },
-      titleStrategy: (snapshot) => (snapshot.root.title as TranslationKey) || '',
     }),
 
     //Añade las rutas del back-office

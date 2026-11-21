@@ -1,0 +1,84 @@
+<mat-chip #origin="cdkOverlayOrigin"
+          (click)="toggleMenu()"
+          [highlighted]="length > 0"
+          [matBadgeHidden]="length < 2"
+          [matBadge]="`+${length}`"
+          cdkOverlayOrigin class="budget">
+  <!--Clase del chip  -->
+  <ng-content />
+
+
+  @if (first) {
+    {{ `${mode()} ${first.label}` }}
+  }
+</mat-chip>
+
+<ng-template (backdropClick)="isOpen.set(false)"
+             (detach)="isOpen.set(false)"
+             [cdkConnectedOverlayHasBackdrop]="true"
+             [cdkConnectedOverlayOpen]="isOpen()"
+             [cdkConnectedOverlayOrigin]="origin"
+             cdkConnectedOverlay
+             cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop">
+  <div class="menu-panel">
+
+    <mat-form-field appearance="outline" class="selector" subscriptSizing="dynamic">
+      <mat-select [(value)]="value().type">
+        <mat-option value="equals">
+          Iguales
+        </mat-option>
+        <mat-option value="notEquals">
+          Diferentes
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--  Falta poner los seleccionados aquí  -->
+
+
+    <div>
+      <mat-form-field appearance="outline" class="search-input" subscriptSizing="dynamic">
+        <input #input (input)="startSearch(input)" matInput placeholder="search">
+      </mat-form-field>
+    </div>
+
+    <mat-list style="padding: 0; margin: 0 12px;">
+      @let height = 30;
+      @let totalElements = Math.min(4, datasource().cachedElements.length);
+      <cdk-virtual-scroll-viewport [itemSize]="height" [style.height.px]="height * totalElements">
+        <ng-container *cdkVirtualFor="let row of combinedDatasource()">
+          @if (row.type === 'divider') {
+            <!-- El divider ha de tenir exactament la mateixa alçada [itemSize]="height" -->
+            <div [style.height.px]="height" style="display: flex; align-items: center;">
+              <mat-divider style="width: 100%;" />
+            </div>
+          } @else {
+            <mat-list-item (click)="toggleSelected(row.data,row.isTopSection, checkbox)" matRipple>
+              <mat-checkbox #checkbox
+                            (change)="onCheckboxChange(row.data,row.isTopSection, checkbox)"
+                            (click)="$event.stopPropagation()"
+                            [checked]="row.isTopSection || selection.isSelected(row.data)">
+                {{ row.data.label }}
+              </mat-checkbox>
+            </mat-list-item>
+          }
+        </ng-container>
+
+      </cdk-virtual-scroll-viewport>
+    </mat-list>
+    <div [style.height.px]="height" style="display: flex; align-items: center;">
+      <mat-divider style="width: 100%;" />
+    </div>
+    <div class="end-panel">
+      <button (click)="clean()" matButton="text">
+        clean all
+      </button>
+      <span>
+        Page {{ datasource().cachedElements.length }} of {{ datasource().totalElements }}
+      </span>
+    </div>
+
+
+  </div>
+
+
+</ng-template>

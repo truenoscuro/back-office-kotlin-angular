@@ -1,0 +1,16 @@
+<app-drawer-container endDrawer minWidth="200">
+
+  <app-drawer>
+    <ng-content select="app-back-office-actions" />
+  </app-drawer>
+
+  <app-header-screen>
+    <ng-content select="app-back-office-drawer" />
+  </app-header-screen>
+
+  <div class="page">
+    <ng-content />
+  </div>
+
+</app-drawer-container>
+

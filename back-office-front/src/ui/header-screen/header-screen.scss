@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+
+    a {
+      text-decoration: none;
+      color: var(--mat-sys-secondary);
+
+      &:hover {
+        color: var(--mat-sys-primary)
+      }
+    }
+
+    .is-last {
+      color: var(--mat-sys-primary)
+    }
+  }
+}

@@ -1,0 +1,120 @@
+/* =======================================================
+   CAPÇALERES ORDENABLES (DESKTOP)
+   ======================================================= */
+th.multi-sort-header {
+  cursor: pointer;
+  user-select: none;
+
+  .multi-sort-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .multi-sort-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.125rem 0.4rem 0.125rem 0.25rem;
+    border-radius: var(--mat-sys-corner-small);
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    transition: opacity 0.15s ease;
+  }
+
+
+  mat-icon.multi-sort-arrow {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    transition: transform 0.2s ease;
+
+    &.desc {
+      transform: rotate(180deg);
+    }
+  }
+
+  .multi-sort-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+/* =======================================================
+   BARRA DE PÍNDOLES D'ORDENACIÓ (MÒBIL)
+   ======================================================= */
+.mobile-sort-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap; // Una sola línia amb scroll horitzontal tàctil
+  overflow-x: auto;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.15rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; // Amaga la barra d'scroll en Firefox
+
+  &::-webkit-scrollbar {
+    display: none; // Amaga la barra d'scroll en Chrome/Safari
+  }
+
+  .mobile-sort-chip {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0; // Evita que les píndoles s'aixafin si n'hi ha moltes
+    gap: 0.35rem;
+    height: 32px;
+    padding: 0 0.75rem;
+    border-radius: var(--mat-sys-corner-small);
+    border: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font-family: inherit;
+    font-size: 0.825rem;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &.is-active {
+      padding-right: 0.5rem; // Compensació visual perquè el badge té cercle/fons
+      border-color: var(--mat-sys-primary);
+      background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-primary-container);
+      font-weight: 600;
+    }
+  }
+
+  .mobile-sort-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.1rem 0.35rem 0.1rem 0.2rem;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  mat-icon.mobile-sort-arrow {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    transition: transform 0.2s ease;
+
+    &.desc {
+      transform: rotate(180deg);
+    }
+  }
+}

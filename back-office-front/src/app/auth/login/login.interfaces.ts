@@ -1,10 +1,10 @@
-import { PermissionKey } from '../../../shared/security/permission-keys.type';
+import { PermissionKey } from '../../../core/security/permission-keys.type';
 
-export interface LoginRequest{
+export interface LoginRequest {
   email: string;
   password: string;
 }
-export interface LoginResponse{
+export interface LoginResponse {
   token: string;
   role: string;
   permissions: PermissionKey[];

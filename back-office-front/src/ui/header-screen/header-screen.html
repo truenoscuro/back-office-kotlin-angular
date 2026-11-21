@@ -1,0 +1,23 @@
+<div class="header">
+  <div>
+    <div class="title">
+      {{ screen().title |translationString }}
+    </div>
+    <div class="breadcrumb">
+      @for (breadcrumb of screen().breadcrumbs; track $index; let last = $last) {
+        @if (breadcrumb.key && !last) {
+          <a [keyRouterLink]="breadcrumb.key"> {{ breadcrumb.title | translationString }} </a>
+        } @else {
+          <span [class.is-last]="last">{{ breadcrumb.title | translationString }}</span>
+        }
+        @if (!last) {
+          <span> > </span>
+        }
+      }
+    </div>
+  </div>
+  <div>
+    <ng-content />
+  </div>
+</div>
+

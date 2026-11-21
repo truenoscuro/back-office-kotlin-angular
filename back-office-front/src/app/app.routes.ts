@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { inject } from '@angular/core';
-import { AppContext } from '../shared/app-context/app-context';
+import { AppContext } from '../core/app-context/app-context';
+import Login from './auth/login/login';
 
 export const routes: Routes = [
   {
@@ -8,15 +9,16 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: () => {
       const token = inject(AppContext).token();
-      if (token) {
-        return '/back-office';
-      }
 
-      return '/login';
+      if (token) {
+        return 'back-office';
+      }
+      console.info('Redirecting to login');
+      return 'login';
     },
   },
   {
     path: 'login',
-    loadComponent: () => import('./auth/login/login'),
+    component: Login,
   },
 ];
