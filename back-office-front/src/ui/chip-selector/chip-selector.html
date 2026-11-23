@@ -1,0 +1,21 @@
+<mat-chip #origin="cdkOverlayOrigin"
+          (click)="opened.update( o => !o)"
+          [highlighted]="highlighted()"
+          [matBadgeHidden]="badgeHidden()"
+          [matBadge]="badge()"
+          cdkOverlayOrigin
+          class="budget">
+  <ng-content />
+</mat-chip>
+
+<ng-template (backdropClick)="opened.set(false)"
+             (detach)="opened.set(false)"
+             [cdkConnectedOverlayHasBackdrop]="true"
+             [cdkConnectedOverlayOpen]="opened()"
+             [cdkConnectedOverlayOrigin]="origin"
+             cdkConnectedOverlay
+             cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop">
+  <div class="menu-panel">
+    <ng-content select="app-chip-menu" />
+  </div>
+</ng-template>

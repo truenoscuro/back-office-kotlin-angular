@@ -1,14 +1,11 @@
-import { Component, computed, effect, input, model, signal, viewChildren } from '@angular/core';
-import { MatChip } from '@angular/material/chips';
-import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { Component, computed, effect, input, model, signal, viewChild } from '@angular/core';
 import { MatFormField, MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatDivider, MatList, MatListItem } from '@angular/material/list';
-import { MatBadge } from '@angular/material/badge';
 import { MatButton } from '@angular/material/button';
 import { FormValueControl } from '@angular/forms/signals';
-import { ChipEqualField } from './chip-equals-filter.interfaces';
-import { Option } from '../../core/models/common-models';
+import { EqualSearchField } from './equal-search-filter.interfaces';
+import { Option } from '../../../core/models/common-models';
 import {
   CdkFixedSizeVirtualScroll,
   CdkVirtualForOf,
@@ -17,18 +14,16 @@ import {
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatRipple } from '@angular/material/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { InfiniteScrollDatasource } from '../../core/datasource/infinite-scroll-datasource';
-import { SelectableInfiniteDatasource } from '../../core/datasource/selectable-infinite-datasource';
+import { InfiniteScrollDatasource } from '../../../core/datasource/infinite-scroll-datasource';
+import { SelectableInfiniteDatasource } from '../../../core/datasource/selectable-infinite-datasource';
+import { ChipSelector } from '../../chip-selector/chip-selector';
+import { ChipMenu } from '../../chip-selector/chip-menu/chip-menu';
 
 @Component({
   imports: [
-    MatChip,
-    CdkConnectedOverlay,
-    CdkOverlayOrigin,
     MatFormField,
     MatSelect,
     MatOption,
-    MatBadge,
     MatDivider,
     MatButton,
     MatInput,
@@ -39,34 +34,33 @@ import { SelectableInfiniteDatasource } from '../../core/datasource/selectable-i
     MatListItem,
     MatCheckbox,
     MatRipple,
+    ChipSelector,
+    ChipMenu,
   ],
-  selector: 'app-chip-equals-filter',
-  styleUrl: './chip-equals-filter.scss',
-  templateUrl: './chip-equals-filter.html',
+  selector: 'app-equals-search-filter',
+  styleUrl: './equal-search-filter.scss',
+  templateUrl: './equal-search-filter.html',
 })
-export class ChipEqualsFilter<T> implements FormValueControl<ChipEqualField<T>> {
+export class EqualSearchFilter<T> implements FormValueControl<EqualSearchField<T>> {
   selection = new SelectionModel<Option<T>>(true);
-  value = model<ChipEqualField<T>>({
+  value = model<EqualSearchField<T>>({
     type: 'equals',
     values: [],
   });
+
   //Input requerido
   datasource = input.required<InfiniteScrollDatasource<Option<T>, string>>();
-  mode = computed(() => (this.value().type === 'equals' ? '=' : '!='));
-  isOpen = signal(false);
   //Parte de la búsqueda
   textSearch = signal('');
   combinedDatasource = computed(() => {
     return new SelectableInfiniteDatasource(this.datasource(), this.selection);
   });
-  protected readonly viewports = viewChildren(CdkVirtualScrollViewport);
+  protected readonly viewport = viewChild.required(CdkVirtualScrollViewport);
   protected readonly Math = Math;
   #changeText = effect(() => {
     this.datasource().filter = this.textSearch();
     this.combinedDatasource().syncPinnedSelection();
-    for (const viewport of this.viewports()) {
-      viewport.scrollToIndex(0);
-    }
+    this.viewport().scrollToIndex(0);
   });
 
   get length() {
@@ -77,14 +71,13 @@ export class ChipEqualsFilter<T> implements FormValueControl<ChipEqualField<T>> 
     return this.length > 0 ? this.selection.selected[0] : undefined;
   }
 
+  mode(type: 'equals' | 'notEquals') {
+    return type === 'equals' ? '=' : '!=';
+  }
+
   protected startSearch(input: HTMLInputElement) {
     const value = input.value || '';
     this.textSearch.set(value);
-  }
-
-  protected toggleMenu() {
-    this.isOpen.update((isOpen) => !isOpen);
-    this.textSearch.set('');
   }
 
   protected toggleSelected(item: Option<T>, isTopSelection: boolean, checkbox: MatCheckbox) {

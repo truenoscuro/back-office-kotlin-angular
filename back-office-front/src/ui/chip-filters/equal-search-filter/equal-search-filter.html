@@ -1,26 +1,16 @@
-<mat-chip #origin="cdkOverlayOrigin"
-          (click)="toggleMenu()"
-          [highlighted]="length > 0"
-          [matBadgeHidden]="length < 2"
-          [matBadge]="`+${length}`"
-          cdkOverlayOrigin class="budget">
-  <!--Clase del chip  -->
+<app-chip-selector
+  (openedChange)="this.textSearch.set('')"
+  [badgeHidden]="length < 2"
+  [badge]="`+${length}`"
+  [highlighted]="length > 0"
+>
   <ng-content />
 
-
   @if (first) {
-    {{ `${mode()} ${first.label}` }}
+    {{ `${mode(value().type)} ${first.label}` }}
   }
-</mat-chip>
 
-<ng-template (backdropClick)="isOpen.set(false)"
-             (detach)="isOpen.set(false)"
-             [cdkConnectedOverlayHasBackdrop]="true"
-             [cdkConnectedOverlayOpen]="isOpen()"
-             [cdkConnectedOverlayOrigin]="origin"
-             cdkConnectedOverlay
-             cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop">
-  <div class="menu-panel">
+  <app-chip-menu>
 
     <mat-form-field appearance="outline" class="selector" subscriptSizing="dynamic">
       <mat-select [(value)]="value().type">
@@ -36,7 +26,7 @@
 
 
     <div>
-      <mat-form-field appearance="outline" class="search-input" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="selector" subscriptSizing="dynamic">
         <input #input (input)="startSearch(input)" matInput placeholder="search">
       </mat-form-field>
     </div>
@@ -77,8 +67,10 @@
       </span>
     </div>
 
+  </app-chip-menu>
 
-  </div>
+</app-chip-selector>
 
 
-</ng-template>
+
+

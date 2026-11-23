@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+.selector {
+  padding: 5px;
+
+}
+
+
+.end-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+

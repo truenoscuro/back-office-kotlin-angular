@@ -1,0 +1,42 @@
+<app-chip-selector [highlighted]="value().text.length > 0">
+  <ng-content />
+
+  @if (value().text.length > 0) {
+    {{ `${mode(value().type)} ${value().text}` }}
+  }
+
+  <app-chip-menu>
+    <mat-form-field appearance="outline" class="selector" subscriptSizing="dynamic">
+      <mat-select [(value)]="value().type">
+        <mat-option value="like">
+          Contiene
+        </mat-option>
+        <mat-option value="notLike">
+          No contiene
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <mat-form-field appearance="outline" class="selector" subscriptSizing="dynamic">
+        <input #input
+               (input)="value().text = input.value || ''"
+               [value]="value().text"
+               matInput
+        >
+      </mat-form-field>
+    </div>
+
+    <div [style.height.px]="30" style="display: flex; align-items: center;">
+      <mat-divider style="width: 100%;" />
+    </div>
+    <div class="end-panel">
+      <button (click)="clean()" matButton="text">
+        clean all
+      </button>
+    </div>
+
+  </app-chip-menu>
+
+</app-chip-selector>
+

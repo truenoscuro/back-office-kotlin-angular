@@ -5,30 +5,12 @@
   border-radius: var(--mat-chip-container-shape-radius, 8px);
   border: 1px solid var(--mat-sys-outline);
   @include mat.all-component-densities(-5);
+  min-width: 200px;
 
   .selector {
     padding: 5px;
-
   }
 
-  .divider {
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-
-  .search-input {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-
-  .end-panel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-  }
 }
 
 .budget {
@@ -37,3 +19,4 @@
     text-color: var(--mat-sys-on-primary)
   ));
 }
+
