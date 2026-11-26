@@ -6,6 +6,8 @@
   border: 1px solid var(--mat-sys-outline);
   @include mat.all-component-densities(-5);
   min-width: 200px;
+ 
+  padding: 5px;
 
   .selector {
     padding: 5px;

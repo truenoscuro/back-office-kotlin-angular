@@ -71,5 +71,7 @@ export const appConfig: ApplicationConfig = {
         return () => httpClient.get<BackOfficeRoute[]>('/api/routes/me');
       },
     }),
+
+    provide
   ],
 };

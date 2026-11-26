@@ -6,9 +6,19 @@ import { EqualField } from '../../../ui/chip-filters/equal-filter/equal-filter.i
 import { LikeField } from '../../../ui/chip-filters/like-filter/like-filter.interfaces';
 import { LikeFilter } from '../../../ui/chip-filters/like-filter/like-filter';
 import { JsonPipe } from '@angular/common';
+import { SelectFilter } from '../../../ui/chip-filters/select-filter/select-filter';
+import { MatFormField } from '@angular/material/input';
 
 @Component({
-  imports: [BackOfficePage, EqualFilter, FormField, LikeFilter, JsonPipe],
+  imports: [
+    BackOfficePage,
+    EqualFilter,
+    FormField,
+    LikeFilter,
+    JsonPipe,
+    SelectFilter,
+    MatFormField,
+  ],
   selector: 'app-dashboard',
   styleUrl: './dashboard.scss',
   templateUrl: './dashboard.html',
@@ -16,10 +26,11 @@ import { JsonPipe } from '@angular/common';
 export default class Dashboard {
   listItem = this.loadItemsTest();
   filter = signal({
-    exampleSelect: <EqualField<number>>{
+    exampleSelectEquals: <EqualField<number>>{
       type: 'equals',
       values: [],
     },
+    exampleSelect: <number[]>[],
     exampleLike: <LikeField>{
       type: 'like',
       text: '',

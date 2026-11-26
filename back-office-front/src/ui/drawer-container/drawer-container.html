@@ -18,9 +18,9 @@
   <mat-drawer-content
     [class.resizing]="isResizing()"
     [style.margin-left.px]="drawer.opened ? drawerWidth() : 0">
-    <div class="content-body">
-      <ng-content />
-    </div>
+
+    <ng-content />
+
   </mat-drawer-content>
 
 </mat-drawer-container>

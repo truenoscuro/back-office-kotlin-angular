@@ -1,8 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 /* Contenidor del drawer */
 mat-drawer-container {
   flex: 1 1 auto;
-
-  display: block;
   position: relative;
   overflow: hidden;
 }
@@ -62,13 +67,5 @@ mat-drawer-content {
   user-select: none;
 }
 
-/* El contenidor real del contingut */
-.content-body {
-  padding: 24px;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+
 

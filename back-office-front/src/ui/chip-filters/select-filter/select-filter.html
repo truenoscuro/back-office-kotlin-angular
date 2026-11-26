@@ -1,0 +1,42 @@
+<app-chip-selector
+  [badgeHidden]="length < 2"
+  [badge]="`+${length}`"
+  [highlighted]="length > 0"
+>
+  <ng-content />
+
+  @if (first) {
+    {{ first.label }}
+  }
+
+  <app-chip-menu>
+    <mat-list>
+      @let height = 30;
+      @let totalElements = Math.min(4, options().length);
+      <cdk-virtual-scroll-viewport [itemSize]="height" [style.height.px]="height * totalElements">
+        <ng-container *cdkVirtualFor="let row of options()">
+          <mat-list-item (click)="toggleSelected(row, checkbox)" matRipple>
+            <mat-checkbox #checkbox
+                          (change)="onCheckboxChange(row, checkbox)"
+                          (click)="$event.stopPropagation()"
+                          [checked]=" selection.isSelected(row)">
+              {{ row.label }}
+            </mat-checkbox>
+          </mat-list-item>
+        </ng-container>
+
+      </cdk-virtual-scroll-viewport>
+    </mat-list>
+    <div [style.height.px]="height" style="display: flex; align-items: center;">
+      <mat-divider style="width: 100%;" />
+    </div>
+    <div class="end-panel">
+      <button (click)="clean()" matButton="text">
+        clean all
+      </button>
+    </div>
+
+  </app-chip-menu>
+
+</app-chip-selector>
+

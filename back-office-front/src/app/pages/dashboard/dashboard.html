@@ -1,15 +1,24 @@
 <app-back-office-page>
 
   <div style="display: flex; gap: 10px; flex-wrap: wrap">
-    <app-equal-filter [formField]="formFilter.exampleSelect" [options]="listItem">
-      Example Select
+    <app-equal-filter [formField]="formFilter.exampleSelectEquals" [options]="listItem">
+      Example Select Equals
     </app-equal-filter>
 
     <app-like-filter [formField]="formFilter.exampleLike">
       Example like
     </app-like-filter>
+
+    <app-select-filter [formField]="formFilter.exampleSelect" [options]="listItem">
+      Example Select
+    </app-select-filter>
   </div>
 
+  <div>
+    <mat-form-field>
+      <input>
+    </mat-form-field>
+  </div>
 
   <div>
     <pre>

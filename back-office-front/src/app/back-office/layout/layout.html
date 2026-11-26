@@ -21,8 +21,9 @@
     <!-- Contingut aquí -->
     <app-menu [collapsed]="isCollapsed()" />
   </app-drawer>
-
-  <ng-content />
+  <div class="content-body">
+    <ng-content />
+  </div>
 
 </app-drawer-container>
 

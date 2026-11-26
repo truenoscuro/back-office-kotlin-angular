@@ -26,69 +26,6 @@ mat-toolbar {
   flex: 1 1 auto;
 }
 
-/* Contenidor del drawer */
-mat-drawer-container {
-  flex: 1 1 auto;
-  height: calc(100vh - 64px); /* Sense caràcters estranys */
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Drawer lateral redimensionable */
-mat-drawer.resizable-drawer {
-  height: 100%;
-  border-right: 1px solid var(--mat-sys-outline);
-  box-sizing: border-box;
-
-  .drawer-inner-content {
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
-  }
-
-  /* Barra agafador per arrossegar la vora */
-  .resize-handle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 6px;
-    cursor: col-resize;
-    user-select: none;
-    z-index: 100;
-    background: transparent;
-
-    &:hover,
-    &:active {
-      background-color: var(--mat-sys-primary);
-    }
-  }
-
-  &.resizing {
-    transition: none !important;
-  }
-}
-
-/* Contingut principal amb padding forçat */
-/* Deixa mat-drawer-content només amb l'scroll */
-mat-drawer-content {
-  height: 100%;
-  overflow: auto;
-  margin-right: 0 !important;
-  box-sizing: border-box;
-  padding: 0 !important; /* Treu el padding d'aquí */
-
-  &.resizing {
-    transition: none !important;
-  }
-}
-
-/* Evita que el text es seleccioni mentre s'arrossega */
-:host-context(body:has(.resize-handle:active)) {
-  user-select: none;
-}
 
 /* El contenidor real del contingut */
 .content-body {
